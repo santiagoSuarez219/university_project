@@ -4,11 +4,25 @@ import scipy.interpolate as interp
 import serial
 import time
 from tkinter import *
+import datetime
+import os
+import sys
 
-def save_img():
-    plt.savefig("plot.png")
+detener = False
 
-ser = serial.Serial('/dev/ttyUSB1')
+def save_fig():
+    now = datetime.datetime.now()
+    filename = f"plot_{now:%Y-%m-%d_%H-%M-%S}.png"    
+    if not os.path.exists('Images'):
+        os.makedirs('Images')
+    plt.savefig(os.path.join('Images', filename))
+
+def close_fig():
+    global detener
+    detener = True
+    sys.exit()
+
+ser = serial.Serial('/dev/ttyUSB0')
 # ser = serial.Serial('COM6')
 ser.baudrate = 115200
 ser.bytesize = 8
@@ -28,10 +42,13 @@ root = Tk()
 frame = Frame(root)
 frame.pack(side=BOTTOM)
 
-quit_button = Button(frame, text="Save", command=save_img)
-quit_button.pack()
+button1 = Button(frame, text="Save", command=save_fig)
+button1.pack()
 
-while True:
+button2 = Button(root, text="Close Figure", command=close_fig)
+button2.pack()
+
+while not detener:
     M90640  = ser.readline()
     M90640S = str(M90640)
     b = M90640S.split(',')

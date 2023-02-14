@@ -5,12 +5,11 @@ import serial
 import time
 from tkinter import *
 
-detener = False
-
 def save_img():
     plt.savefig("plot.png")
 
 ser = serial.Serial('/dev/ttyUSB1')
+# ser = serial.Serial('COM6')
 ser.baudrate = 115200
 ser.bytesize = 8
 ser.parities = 0
@@ -32,7 +31,7 @@ frame.pack(side=BOTTOM)
 quit_button = Button(frame, text="Save", command=save_img)
 quit_button.pack()
 
-while detener == False:
+while True:
     M90640  = ser.readline()
     M90640S = str(M90640)
     b = M90640S.split(',')

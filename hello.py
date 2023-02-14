@@ -35,10 +35,14 @@ ser.bytesize = 8
 ser.parities = 0
 ser.stopbits = 1
 
-fig = plt.figure()
-ax1 = fig.add_subplot(1,1,1)
+# fig = plt.figure()
+# ax1 = fig.add_subplot(1,1,1)
 
-# fig, ax = plt.subplots(ncols=1)
+fig, ax = plt.subplots()
+im = ax.imshow(np.zeros((24, 32)), cmap='jet')
+cbar = fig.colorbar(im)
+plt.title('Mlx90640 Real-time Image')
+
 term = np.zeros([32,24])
 x1 = np.arange(0,32)
 y1 = np.arange(0,24)
@@ -57,9 +61,7 @@ button2 = Button(root, text="Close Figure", command=close_fig)
 button2.pack()
 
 while not detener:
-    M90640  = ser.readline()
-    M90640S = str(M90640)
-    b = M90640S.split(',')
+    b = str(ser.readline()).split(',')
     b.pop(0)
     if len(b) == 769:
         for x in range(0, 32):
@@ -69,11 +71,12 @@ while not detener:
     teri = interp.interp2d(y1,x1,term,kind='cubic')
     terp = teri(y2,x2)
     #plt.matshow(term,fignum=0,vmin =np.min(term),vmax =np.max(term))
-
+    im.set_clim(np.min(term),np.max(term))
+    # cbar.set_clim(np.min(term),np.max(term))
     plt.imshow(terp,vmin =np.min(term),vmax =np.max(term),cmap = 'jet')
-    cb = plt.colorbar()
+    #cb = plt.colorbar()
     fig.canvas.draw()
-    cb.remove() 
+    #cb.remove() 
     
     plt.pause(1e-17)
     time.sleep(0.3)

@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import serial
+import cv2
+from improve_resolution import improve_resolution
 
 # Configuración de la comunicación serial
 ser = serial.Serial('/dev/ttyUSB0', 115200) 
@@ -19,6 +21,8 @@ while True:
         data = [element for element in data if element and 0 <= float(element) <= 100]
         if len(data) == 768:
             data = np.array(data, dtype=float).reshape(24, 32)
+            scale = 4
+            data = improve_resolution(data, scale)
             image_real_time.set_data(data)
             image_real_time.set_clim(vmin = np.min(data), vmax=np.max(data))
             plt.pause(0.01)

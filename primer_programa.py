@@ -74,6 +74,7 @@ while not detener:
     teri = interp.interp2d(y1,x1,term,kind='cubic')
     terp = teri(y2,x2)
     #plt.matshow(term,fignum=0,vmin =np.min(term),vmax =np.max(term))
+    print(np.shape(terp))
     print(f'temperatura maxima: {np.max(term)}')
     print(f'temperatura minima: {np.min(term)}')
     print(f'temperatura promedio: {np.mean(terp[(terp > valor_temperatura - 2) & (terp < valor_temperatura+2)])}')

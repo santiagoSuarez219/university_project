@@ -13,3 +13,8 @@ def improve_resolution(data):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
     return img
+
+def linear_interpolation(data):
+    img = cv2.resize(data, (256,192), interpolation=cv2.INTER_LINEAR)
+    return img
+    

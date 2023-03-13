@@ -7,7 +7,7 @@ ser = serial.Serial('/dev/ttyUSB0', 115200)
 ser.flushInput()
 
 plt.ion()
-fig, ax = plt.subplots(figsize=(12,7))
+fig, ax = plt.subplots()
 image_real_time = ax.imshow(np.zeros((24,32)),cmap='jet',vmin=0,vmax=60)
 barra_temperatura = fig.colorbar(image_real_time)
 barra_temperatura.set_label('Temperature [$^{\circ}$C]',fontsize=14)
